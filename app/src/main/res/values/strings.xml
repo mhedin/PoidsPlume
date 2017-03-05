@@ -4,35 +4,34 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="chart_rate_label">Taux (en %)</string>
+    <string name="chart_weight_label">Poids (en kg)</string>
+    
     <string name="nav_title_history">Historique</string>
     <string name="nav_history_weight">Poids</string>
-    <string name="nav_history_muscle">Muscles</string>
-    <string name="nav_history_bones">Os</string>
-    <string name="nav_history_water">Eau</string>
-    <string name="nav_history_fat">Graisse</string>
+    <string name="nav_history_muscle">Masse musculaire</string>
+    <string name="nav_history_bones">Masse osseuse</string>
+    <string name="nav_history_water">Masse hydrique</string>
+    <string name="nav_history_fat">Graisse corporelle</string>
 
     <string name="add_data_title">Nouvelle donnée</string>
     <string name="add_data_weight">Poids</string>
     <string name="add_data_muscular_mass">Masse musculaire</string>
-    <string name="add_data_bones">Os</string>
-    <string name="add_data_fat_mass">Masse graisseuse</string>
-    <string name="add_data_water">Eau</string>
+    <string name="add_data_bones">Masse osseuse</string>
+    <string name="add_data_fat_mass">Graisse corporelle</string>
+    <string name="add_data_water">Masse hydrique</string>
     <string name="add_data_ok">OK</string>
     <string name="add_data_cancel">Annuler</string>
     <string name="add_data_error_empty_field">Veuillez entrer une valeur</string>
 
-    <string name="history_title_bones">Historique des os</string>
-    <string name="history_title_fat">Historique des graisses</string>
-    <string name="history_title_muscle">Historique des muscles</string>
-    <string name="history_title_water">Historique de l\'eau</string>
-    <string name="history_title_weight">Historique des poids</string>
+    <string name="history_title_bones">Historique de masse osseuse</string>
+    <string name="history_title_fat">Historique de graisse corporelle</string>
+    <string name="history_title_muscle">Historique de masse musculaire</string>
+    <string name="history_title_water">Historique de masse hydrique</string>
+    <string name="history_title_weight">Historique du poids</string>
 
     <string name="history_date">Date</string>
     <string name="history_weight_table">Poids</string>
-    <string name="history_muscle_table">Muscles</string>
-    <string name="history_bones_table">Os</string>
-    <string name="history_water_table">Eau</string>
-    <string name="history_fat_table">Graisse</string>
     <string name="history_value_type_rate">Taux</string>
 
 </resources>

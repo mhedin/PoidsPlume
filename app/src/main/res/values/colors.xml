@@ -5,4 +5,7 @@
     <color name="colorAccent">#0192C9</color>
 
     <color name="evenTableLine">#eeeeee</color>
+
+    <color name="black">#000000</color>
+
 </resources>
