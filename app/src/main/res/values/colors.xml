@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#fcc21b</color>
+    <color name="colorPrimaryDark">#e48c15</color>
+    <color name="colorAccent">#0192C9</color>
+
+    <color name="evenTableLine">#eeeeee</color>
+</resources>

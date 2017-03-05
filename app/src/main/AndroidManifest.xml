@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.morgane.poidsplume">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar"
+        android:name="com.orm.SugarApp">
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activities.AddDataActivity"
+            android:label="@string/add_data_title"/>
+
+        <activity android:name=".fragments.BonesHistoryFragment"
+            android:label="@string/history_title_bones"/>
+
+        <activity android:name=".fragments.FatHistoryFragment"
+            android:label="@string/history_title_fat"/>
+
+        <activity android:name=".fragments.MuscleHistoryFragment"
+            android:label="@string/history_title_muscle"/>
+
+        <activity android:name=".fragments.WaterHistoryFragment"
+            android:label="@string/history_title_water"/>
+
+        <activity android:name=".fragments.WeightHistoryFragment"
+            android:label="@string/history_title_weight"/>
+
+        <meta-data
+            android:name="DATABASE"
+            android:value="poidsplume.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="1" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.morgane.poidsplume" />
+
+    </application>
+
+</manifest>

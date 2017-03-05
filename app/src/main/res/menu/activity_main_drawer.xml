@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/nav_title_history">
+        <menu>
+            <item
+                android:id="@+id/nav_history_weight"
+                android:icon="@drawable/ic_menu_weight"
+                android:title="@string/nav_history_weight" />
+            <item
+                android:id="@+id/nav_history_fat"
+                android:icon="@drawable/ic_menu_fat"
+                android:title="@string/nav_history_fat" />
+            <item
+                android:id="@+id/nav_history_muscle"
+                android:icon="@drawable/ic_menu_muscle"
+                android:title="@string/nav_history_muscle" />
+            <item
+                android:id="@+id/nav_history_bones"
+                android:icon="@drawable/ic_menu_bones"
+                android:title="@string/nav_history_bones" />
+            <item
+                android:id="@+id/nav_history_water"
+                android:icon="@drawable/ic_menu_water"
+                android:title="@string/nav_history_water" />
+        </menu>
+    </item>
+
+    <!--group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Import" />
+    </group!-->
+
+</menu>
