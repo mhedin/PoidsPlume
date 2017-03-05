@@ -63,16 +63,30 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         Fragment fragment = null;
 
-        if (id == R.id.nav_history_weight) {
-            fragment = new WeightHistoryFragment();
-        } else if (id == R.id.nav_history_bones) {
-            fragment = new BonesHistoryFragment();
-        } else if (id == R.id.nav_history_fat) {
-            fragment = new FatHistoryFragment();
-        } else if (id == R.id.nav_history_muscle) {
-            fragment = new MuscleHistoryFragment();
-        } else if (id == R.id.nav_history_water) {
-            fragment = new WaterHistoryFragment();
+        switch (id) {
+            case R.id.nav_home:
+                getSupportFragmentManager().popBackStack();
+                break;
+
+            case R.id.nav_history_weight:
+                fragment = new WeightHistoryFragment();
+                break;
+
+            case R.id.nav_history_bones:
+                fragment = new BonesHistoryFragment();
+                break;
+
+            case R.id.nav_history_fat:
+                fragment = new FatHistoryFragment();
+                break;
+
+            case R.id.nav_history_muscle:
+                fragment = new MuscleHistoryFragment();
+                break;
+
+            case R.id.nav_history_water:
+                fragment = new WaterHistoryFragment();
+                break;
         }
 
         if (fragment != null) {
