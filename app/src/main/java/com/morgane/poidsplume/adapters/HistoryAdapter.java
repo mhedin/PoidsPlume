@@ -6,11 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.morgane.poidsplume.R;
 import com.morgane.poidsplume.models.DatedValue;
+import com.morgane.poidsplume.models.ResultsRange;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,13 +35,19 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     private List<DatedValue> mItems;
 
     /**
+     * The results range of the history.
+     */
+    private ResultsRange mResultsRange;
+
+    /**
      * Constructor of the class.
      * @param datedValueList The items to display.
      * @param context The context of the application.
      */
-    public HistoryAdapter(List<DatedValue> datedValueList, Context context) {
+    public HistoryAdapter(List<DatedValue> datedValueList, Context context, ResultsRange resultsRange) {
         mContext = context;
         mItems = datedValueList;
+        mResultsRange = resultsRange;
     }
 
     @Override
@@ -48,16 +56,46 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                 .inflate(R.layout.item_history, parent, false);
         TextView date = (TextView) layout.findViewById(R.id.text_view_history_date);
         TextView value = (TextView) layout.findViewById(R.id.text_view_history_value);
+        ImageView result = (ImageView) layout.findViewById(R.id.text_view_history_result);
 
-        return new ViewHolder(layout, date, value);
+        return new ViewHolder(layout, date, value, result);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        DatedValue datedValue = mItems.get(position);
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy - HH:mm", Locale.getDefault());
-        String formattedDate = simpleDateFormat.format(new Date(mItems.get(position).getDate()));
+        String formattedDate = simpleDateFormat.format(new Date(datedValue.getDate()));
         holder.mDate.setText(formattedDate);
-        holder.mValue.setText(mItems.get(position).getValue());
+        holder.mValue.setText(mContext.getString(datedValue.getUnit(), datedValue.getValue()));
+
+        // If there is no results range for the current data, make the view disappear
+        if (mResultsRange == null) {
+            holder.mResult.setVisibility(View.GONE);
+
+        } else {
+            if ((mResultsRange.getHighRangeMax() != null && datedValue.getValue() < mResultsRange.getHighRangeMax())
+                || (mResultsRange.getHighRangeMin() != null && datedValue.getValue() > mResultsRange.getHighRangeMin())){
+                // If the max high range is not null, it means a high value is a value lower than this value
+                // If the min high range is not null, it means a high value is a value higher than this value
+                holder.mResult.setImageResource(R.drawable.ic_value_high);
+
+            } else if ((mResultsRange.getBadRangeMax() != null && datedValue.getValue() < mResultsRange.getBadRangeMax())
+                    || (mResultsRange.getBadRangeMin() != null && datedValue.getValue() > mResultsRange.getBadRangeMin())) {
+                // If the max bad range is not null, it means a bad value is a value lower than this value
+                // If the min bad range is not null, it means a bad value is a value higher than this value
+                holder.mResult.setImageResource(R.drawable.ic_value_bad);
+
+            } else if (datedValue.getValue() >= mResultsRange.getGoodRangeMin() && datedValue.getValue() <= mResultsRange.getGoodRangeMax()) {
+                // If the value is in the good range
+                holder.mResult.setImageResource(R.drawable.ic_value_good_normal);
+
+            } else if (datedValue.getValue() >= mResultsRange.getMediumRangeMin() && datedValue.getValue() <= mResultsRange.getMediumRangeMax()) {
+                // If the value is in the medium range
+                holder.mResult.setImageResource(R.drawable.ic_value_medium);
+            }
+        }
 
         if (position % 2 == 0) {
             holder.mLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.evenTableLine));
@@ -75,12 +113,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         public View mLayout;
         public TextView mDate;
         public TextView mValue;
+        public ImageView mResult;
 
-        public ViewHolder(View layout, TextView date, TextView value) {
+        public ViewHolder(View layout, TextView date, TextView value, ImageView result) {
             super(layout);
             mLayout = layout;
             mDate = date;
             mValue = value;
+            mResult = result;
         }
     }
 }

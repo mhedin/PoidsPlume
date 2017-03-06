@@ -34,5 +34,8 @@
     <string name="history_date">Date</string>
     <string name="history_weight_table">Poids</string>
     <string name="history_value_type_rate">Taux</string>
+    <string name="history_result">Résultat</string>
+    <string name="history_value_unit_kg">%s kg</string>
+    <string name="history_value_unit_percentage">%s %%</string>
 
 </resources>

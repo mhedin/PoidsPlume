@@ -18,6 +18,7 @@ import com.morgane.poidsplume.fragments.FatHistoryFragment;
 import com.morgane.poidsplume.fragments.MuscleHistoryFragment;
 import com.morgane.poidsplume.fragments.WaterHistoryFragment;
 import com.morgane.poidsplume.fragments.WeightHistoryFragment;
+import com.morgane.poidsplume.models.ResultsRange;
 
 /**
  * Main Activity.
@@ -44,6 +45,17 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //TODO: Remove this code later
+        if (ResultsRange.getFatResultsRange() == null) {
+            ResultsRange fatResultsRange = new ResultsRange(ResultsRange.RESULT_FAT, null, 18.0, 18.0, 23.0, 23.1, 28.0, 28.1, null);
+            ResultsRange muscleResultsRange = new ResultsRange(ResultsRange.RESULT_MUSCLE, 39.0, null, 34.0, 39.0, null, null, null, 34.0);
+            ResultsRange waterResultsRange = new ResultsRange(ResultsRange.RESULT_WATER, 60.0, null, 45.0, 60.0, null, null, null, 45.0);
+
+            fatResultsRange.save();
+            muscleResultsRange.save();
+            waterResultsRange.save();
+        }
     }
 
     @Override

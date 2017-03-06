@@ -8,21 +8,27 @@ public class DatedValue {
     /**
      * The date and time.
      */
-    private final long date;
+    private long date;
 
     /**
      * The value.
      */
-    private final String value;
+    private double value;
+
+    /**
+     * The unit of the value.
+     */
+    private int unit;
 
     /**
      * Constructor.
      * @param date The date and time.
      * @param value The value.
      */
-    public DatedValue(long date, String value) {
+    public DatedValue(long date, double value, int unit) {
         this.date = date;
         this.value = value;
+        this.unit = unit;
     }
 
     /**
@@ -37,7 +43,15 @@ public class DatedValue {
      * Accessor for the value.
      * @return The value.
      */
-    public String getValue() {
+    public double getValue() {
         return value;
+    }
+
+    /**
+     * Accessor for the unit.
+     * @return The unit.
+     */
+    public int getUnit() {
+        return unit;
     }
 }

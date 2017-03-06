@@ -14,32 +14,32 @@ public class BodyData extends SugarRecord {
     /**
      * The date and time of the measure.
      */
-    private long mMeasureDate;
+    private long measureDate;
 
     /**
      * The weight.
      */
-    private double mWeight;
+    private double weight;
 
     /**
      * The body fat.
      */
-    private double mFat;
+    private double fat;
 
     /**
      * The muscular mass.
      */
-    private double mMuscle;
+    private double muscle;
 
     /**
      * The bone mass.
      */
-    private double mBones;
+    private double bones;
 
     /**
      * The water mass.
      */
-    private double mWater;
+    private double water;
 
     /**
      * Default constructor.
@@ -58,12 +58,12 @@ public class BodyData extends SugarRecord {
      * @param water The water mass.
      */
     public BodyData(long measureDate, double weight, double fat, double muscle, double bones, double water) {
-        mMeasureDate = measureDate;
-        mWeight = weight;
-        mFat = fat;
-        mMuscle = muscle;
-        mBones = bones;
-        mWater = water;
+        this.measureDate = measureDate;
+        this.weight = weight;
+        this.fat = fat;
+        this.muscle = muscle;
+        this.bones = bones;
+        this.water = water;
     }
 
     /**
@@ -71,7 +71,7 @@ public class BodyData extends SugarRecord {
      * @return the date and time of the measure.
      */
     public long getMeasureDate() {
-        return mMeasureDate;
+        return measureDate;
     }
 
     /**
@@ -79,7 +79,7 @@ public class BodyData extends SugarRecord {
      * @return The weight.
      */
     public double getWeight() {
-        return mWeight;
+        return weight;
     }
 
     /**
@@ -87,7 +87,7 @@ public class BodyData extends SugarRecord {
      * @return The body fat.
      */
     public double getFat() {
-        return mFat;
+        return fat;
     }
 
     /**
@@ -95,7 +95,7 @@ public class BodyData extends SugarRecord {
      * @return The muscular mass.
      */
     public double getMuscle() {
-        return mMuscle;
+        return muscle;
     }
 
     /**
@@ -103,7 +103,7 @@ public class BodyData extends SugarRecord {
      * @return The bone mass.
      */
     public double getBones() {
-        return mBones;
+        return bones;
     }
 
     /**
@@ -111,19 +111,19 @@ public class BodyData extends SugarRecord {
      * @return The water mass.
      */
     public double getWater() {
-        return mWater;
+        return water;
     }
 
     @Override
     public String toString() {
         SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yy - HH:mm", Locale.getDefault());
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("measure date: ").append(formatDate.format(mMeasureDate))
-                .append(" - weight: ").append(mWeight)
-                .append(" - fat: ").append(mFat)
-                .append(" - muscle: ").append(mMuscle)
-                .append(" - bones: ").append(mBones)
-                .append(" - water: ").append(mWater);
+        stringBuilder.append("measure date: ").append(formatDate.format(measureDate))
+                .append(" - weight: ").append(weight)
+                .append(" - fat: ").append(fat)
+                .append(" - muscle: ").append(muscle)
+                .append(" - bones: ").append(bones)
+                .append(" - water: ").append(water);
         return stringBuilder.toString();
     }
 }

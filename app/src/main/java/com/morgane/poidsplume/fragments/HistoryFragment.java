@@ -3,18 +3,17 @@ package com.morgane.poidsplume.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.morgane.poidsplume.models.DatedValue;
-import com.morgane.poidsplume.adapters.HistoryAdapter;
 import com.morgane.poidsplume.R;
+import com.morgane.poidsplume.adapters.HistoryAdapter;
+import com.morgane.poidsplume.models.DatedValue;
+import com.morgane.poidsplume.models.ResultsRange;
 
 import java.util.List;
 
@@ -30,23 +29,21 @@ public abstract class HistoryFragment extends Fragment {
 
         getActivity().setTitle(getTitleStringResource());
 
-        LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.linear_layout_history);
-        linearLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
-
-        TextView dateTextView = (TextView) view.findViewById(R.id.text_view_history_date);
-        dateTextView.setText(R.string.history_date);
-        dateTextView.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.white));
-
-        TextView valueTextView = (TextView) view.findViewById(R.id.text_view_history_value);
+        TextView valueTextView = (TextView) view.findViewById(R.id.text_view_history_title_value);
         valueTextView.setText(getValueTypeStringResource());
-        valueTextView.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.white));
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_history);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        HistoryAdapter adapter = new HistoryAdapter(getData(), getActivity());
+        ResultsRange resultsRange = getResultsRange();
+        // If there is no results range for the current data, make the view disappear
+        if (resultsRange == null) {
+            view.findViewById(R.id.text_view_history_title_result).setVisibility(View.GONE);
+        }
+
+        HistoryAdapter adapter = new HistoryAdapter(getData(), getActivity(), resultsRange);
         recyclerView.setAdapter(adapter);
 
         return view;
@@ -69,4 +66,10 @@ public abstract class HistoryFragment extends Fragment {
      * @return The name of the value type column.
      */
     protected abstract int getValueTypeStringResource();
+
+    /**
+     * Method to override to register the results range of the history.
+     * @return The results range of the history.
+     */
+    protected abstract ResultsRange getResultsRange();
 }
