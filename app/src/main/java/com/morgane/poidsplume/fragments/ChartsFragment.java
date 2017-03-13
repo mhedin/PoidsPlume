@@ -26,7 +26,6 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This class presents the history into charts.
@@ -84,9 +83,7 @@ public class ChartsFragment extends Fragment implements View.OnClickListener {
 
         // Bone mass
         XYSeries bonesSeries = new XYSeries(getString(R.string.add_data_bones));
-        List<DatedValue> bonesList = BodyData.listAll(BodyData.class).stream()
-                .map(data -> new DatedValue(data.getMeasureDate(), data.getBones(), -1))
-                .collect(Collectors.toList());
+        List<DatedValue> bonesList = BodyData.getAllBoneMass();
         for (DatedValue datedValue : bonesList) {
             bonesSeries.add(datedValue.getDate(), datedValue.getValue());
         }
@@ -98,9 +95,7 @@ public class ChartsFragment extends Fragment implements View.OnClickListener {
 
         // Body fat
         XYSeries fatMassSeries = new XYSeries(getString(R.string.add_data_fat_mass));
-        List<DatedValue> fatMassList = BodyData.listAll(BodyData.class).stream()
-                .map(data -> new DatedValue(data.getMeasureDate(), data.getFat(), -1))
-                .collect(Collectors.toList());
+        List<DatedValue> fatMassList = BodyData.getAllFatMass();
         for (DatedValue datedValue : fatMassList) {
             fatMassSeries.add(datedValue.getDate(), datedValue.getValue());
         }
@@ -112,9 +107,7 @@ public class ChartsFragment extends Fragment implements View.OnClickListener {
 
         // Muscular mass
         XYSeries muscleSeries = new XYSeries(getString(R.string.add_data_muscular_mass));
-        List<DatedValue> muscleMassList = BodyData.listAll(BodyData.class).stream()
-                .map(data -> new DatedValue(data.getMeasureDate(), data.getMuscle(), -1))
-                .collect(Collectors.toList());
+        List<DatedValue> muscleMassList = BodyData.getAllMuscularMass();
         for (DatedValue datedValue : muscleMassList) {
             muscleSeries.add(datedValue.getDate(), datedValue.getValue());
         }
@@ -126,9 +119,7 @@ public class ChartsFragment extends Fragment implements View.OnClickListener {
 
         // Water mass
         XYSeries waterSeries = new XYSeries(getString(R.string.add_data_water));
-        List<DatedValue> waterList = BodyData.listAll(BodyData.class).stream()
-                .map(data -> new DatedValue(data.getMeasureDate(), data.getWater(), -1))
-                .collect(Collectors.toList());
+        List<DatedValue> waterList = BodyData.getAllWaterMass();
         for (DatedValue datedValue : waterList) {
             waterSeries.add(datedValue.getDate(), datedValue.getValue());
         }
@@ -158,9 +149,7 @@ public class ChartsFragment extends Fragment implements View.OnClickListener {
         XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
 
         XYSeries weightSeries = new XYSeries(getString(R.string.add_data_weight));
-        List<DatedValue> weightList = BodyData.listAll(BodyData.class).stream()
-                .map(data -> new DatedValue(data.getMeasureDate(), data.getWeight(), -1))
-                .collect(Collectors.toList());
+        List<DatedValue> weightList = BodyData.getAllWeights();
         for (DatedValue datedValue : weightList) {
             weightSeries.add(datedValue.getDate(), datedValue.getValue());
         }

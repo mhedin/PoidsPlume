@@ -1,9 +1,12 @@
 package com.morgane.poidsplume.models;
 
+import com.morgane.poidsplume.R;
 import com.orm.SugarRecord;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * Database table.
@@ -125,5 +128,60 @@ public class BodyData extends SugarRecord {
                 .append(" - bones: ").append(bones)
                 .append(" - water: ").append(water);
         return stringBuilder.toString();
+    }
+
+    /**
+     * Get all the bone mass values associated with the date of measure and unit.
+     * @return The list of all bone mass values associated with the date of measure and unit.
+     */
+    public static List<DatedValue> getAllBoneMass() {
+        return BodyData.listAll(BodyData.class).stream()
+                .sorted((data1, data2) -> Long.compare(data2.getMeasureDate(), data1.getMeasureDate()))
+                .map(data -> new DatedValue(data.getMeasureDate(), data.getBones(), R.string.history_value_unit_percentage))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get all the fat mass values associated with the date of measure and unit.
+     * @return The list of all fat mass values associated with the date of measure and unit.
+     */
+    public static List<DatedValue> getAllFatMass() {
+        return BodyData.listAll(BodyData.class).stream()
+                .sorted((data1, data2) -> Long.compare(data2.getMeasureDate(), data1.getMeasureDate()))
+                .map(data -> new DatedValue(data.getMeasureDate(), data.getFat(), R.string.history_value_unit_percentage))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get all the muscular mass values associated with the date of measure and unit.
+     * @return The list of all muscular mass values associated with the date of measure and unit.
+     */
+    public static List<DatedValue> getAllMuscularMass() {
+        return BodyData.listAll(BodyData.class).stream()
+                .sorted((data1, data2) -> Long.compare(data2.getMeasureDate(), data1.getMeasureDate()))
+                .map(data -> new DatedValue(data.getMeasureDate(), data.getMuscle(), R.string.history_value_unit_percentage))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get all the water mass values associated with the date of measure and unit.
+     * @return The list of all water mass values associated with the date of measure and unit.
+     */
+    public static List<DatedValue> getAllWaterMass() {
+        return BodyData.listAll(BodyData.class).stream()
+                .sorted((data1, data2) -> Long.compare(data2.getMeasureDate(), data1.getMeasureDate()))
+                .map(data -> new DatedValue(data.getMeasureDate(), data.getWater(), R.string.history_value_unit_percentage))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get all the weights values associated with the date of measure and unit.
+     * @return The list of all weights values associated with the date of measure and unit.
+     */
+    public static List<DatedValue> getAllWeights() {
+        return BodyData.listAll(BodyData.class).stream()
+                .sorted((data1, data2) -> Long.compare(data2.getMeasureDate(), data1.getMeasureDate()))
+                .map(data -> new DatedValue(data.getMeasureDate(), data.getWeight(), R.string.history_value_unit_kg))
+                .collect(Collectors.toList());
     }
 }

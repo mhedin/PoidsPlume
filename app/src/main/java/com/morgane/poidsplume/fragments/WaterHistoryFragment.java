@@ -6,7 +6,6 @@ import com.morgane.poidsplume.models.DatedValue;
 import com.morgane.poidsplume.models.ResultsRange;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * The history of water mass results.
@@ -15,10 +14,7 @@ public class WaterHistoryFragment extends HistoryFragment {
 
     @Override
     protected List<DatedValue> getData() {
-        return BodyData.listAll(BodyData.class).stream()
-                .sorted((data1, data2) -> Long.compare(data2.getMeasureDate(), data1.getMeasureDate()))
-                .map(data -> new DatedValue(data.getMeasureDate(), data.getWater(), R.string.history_value_unit_percentage))
-                .collect(Collectors.toList());
+        return BodyData.getAllWaterMass();
     }
 
     @Override
