@@ -2,8 +2,10 @@ package com.morgane.poidsplume.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -11,21 +13,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.morgane.poidsplume.R;
 import com.morgane.poidsplume.activities.AddDataActivity;
+import com.morgane.poidsplume.activities.MainActivity;
 import com.morgane.poidsplume.models.BodyData;
 import com.morgane.poidsplume.models.DatedValue;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.PointStyle;
+import org.achartengine.model.CategorySeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.DefaultRenderer;
+import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * This class presents the history into charts.
@@ -45,6 +54,8 @@ public class ChartsFragment extends Fragment implements View.OnClickListener {
 
     private static final int COLOR_ORANGE = 0xFFFF5B00;
 
+    private static final int COLOR_WHITE = 0xFFFFFFFF;
+
     /**
      * The linear layout containing the body rates chart.
      */
@@ -54,6 +65,11 @@ public class ChartsFragment extends Fragment implements View.OnClickListener {
      * The linear layout containing the weight chart.
      */
     private LinearLayout mWeightChartLinearLayout;
+
+    /**
+     * Indicating which chart shall be displayed : the timeline or the actual values.
+     */
+    private int mChartToDisplay;
 
     @Nullable
     @Override
@@ -66,18 +82,35 @@ public class ChartsFragment extends Fragment implements View.OnClickListener {
         fab.setOnClickListener(this);
 
         mRateChartLinearLayout = (LinearLayout) view.findViewById(R.id.linear_layout_chart_body_rates);
-        refreshRatesChart();
-
         mWeightChartLinearLayout = (LinearLayout) view.findViewById(R.id.linear_layout_chart_weight);
-        refreshWeightChart();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mChartToDisplay = sharedPreferences.getInt(MainActivity.PREFERENCE_CHART_DISPLAYED, MainActivity.CHART_HISTORY);
+
+        refreshCharts(mChartToDisplay);
 
         return view;
     }
 
     /**
+     * Refresh the charts, depending on whether the chart to display is the history or the actual values.
+     * @param chartToDisplay The new value of the chart to display, if it must be changed.
+     */
+    public void refreshCharts(int chartToDisplay) {
+        mChartToDisplay = chartToDisplay;
+        if (mChartToDisplay == MainActivity.CHART_HISTORY) {
+            refreshRatesLineChart();
+            refreshWeightLineChart();
+        } else {
+            refreshRatesPieChart();
+            displayWeightActualValue();
+        }
+    }
+
+    /**
      * Refresh the chart displaying the body rates history.
      */
-    private void refreshRatesChart() {
+    private void refreshRatesLineChart() {
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
         XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
 
@@ -95,7 +128,7 @@ public class ChartsFragment extends Fragment implements View.OnClickListener {
 
         // Body fat
         XYSeries fatMassSeries = new XYSeries(getString(R.string.add_data_fat_mass));
-        List<DatedValue> fatMassList = BodyData.getAllFatMass();
+        List<DatedValue> fatMassList = BodyData.getAllBodyFat();
         for (DatedValue datedValue : fatMassList) {
             fatMassSeries.add(datedValue.getDate(), datedValue.getValue());
         }
@@ -133,18 +166,19 @@ public class ChartsFragment extends Fragment implements View.OnClickListener {
         // Global view
         renderer.setYAxisMax(70);
         renderer.setYAxisMin(0);
-        renderer.setChartTitle(getString(R.string.chart_rate_label));
+        renderer.setChartTitle(getString(R.string.line_chart_rate_label));
         setDefaultMultipleSeriesRendererValues(renderer);
         GraphicalView chartView = ChartFactory.
                 getTimeChartView(getActivity(), dataset, renderer, "dd/MM/yy");
         mRateChartLinearLayout.removeAllViews();
         mRateChartLinearLayout.addView(chartView);
+        ((LinearLayout.LayoutParams)mRateChartLinearLayout.getLayoutParams()).weight = 1;
     }
 
     /**
      * Refresh the chart displaying the weight history.
      */
-    private void refreshWeightChart() {
+    private void refreshWeightLineChart() {
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
         XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
 
@@ -162,12 +196,13 @@ public class ChartsFragment extends Fragment implements View.OnClickListener {
 
         renderer.setYAxisMax(60);
         renderer.setYAxisMin(50);
-        renderer.setChartTitle(getString(R.string.chart_weight_label));
+        renderer.setChartTitle(getString(R.string.line_chart_weight_label));
         setDefaultMultipleSeriesRendererValues(renderer);
         GraphicalView chartView = ChartFactory.
                 getTimeChartView(getActivity(), dataset, renderer, "dd/MM/yy");
         mWeightChartLinearLayout.removeAllViews();
         mWeightChartLinearLayout.addView(chartView);
+        ((LinearLayout.LayoutParams)mWeightChartLinearLayout.getLayoutParams()).weight = 1;
     }
 
     /**
@@ -186,32 +221,106 @@ public class ChartsFragment extends Fragment implements View.OnClickListener {
      * @param renderer The renderer to update.
      */
     private void setDefaultMultipleSeriesRendererValues(XYMultipleSeriesRenderer renderer) {
-        // We want to avoid black border transparent margins
         renderer.setMarginsColor(Color.argb(0x00, 0xff, 0x00, 0x00));
         renderer.setPanEnabled(false, false);
         renderer.setShowGrid(true);
+        renderer.setXLabelsColor(R.color.black);
+        renderer.setYLabelsColor(0, R.color.black);
+        renderer.setAxisTitleTextSize(30);
+        renderer.setYLabelsPadding(15);
+        renderer.setZoomEnabled(false, false);
+        renderer.setLabelsTextSize(25);
+        renderer.setLegendTextSize(25);
         renderer.setLabelsColor(R.color.black);
         renderer.setAxesColor(R.color.black);
         renderer.setXAxisColor(R.color.black);
         renderer.setYAxisColor(R.color.black);
-        renderer.setXLabelsColor(R.color.black);
-        renderer.setYLabelsColor(0, R.color.black);
-        renderer.setLegendTextSize(25);
-        renderer.setAxisTitleTextSize(30);
-        renderer.setLabelsTextSize(25);
-        renderer.setYLabelsPadding(15);
-        renderer.setFitLegend(true);
         renderer.setChartTitleTextSize(40);
+        renderer.setFitLegend(true);
         renderer.setMargins(new int[] { 50, 50, 25, 22 });
-        renderer.setZoomEnabled(false, false);
+    }
+
+    /**
+     * Refresh the chart displaying the actual rates values.
+     */
+    private void refreshRatesPieChart() {
+        CategorySeries dataset = new CategorySeries(getString(R.string.pie_chart_rate_label));
+        DefaultRenderer renderer  = new DefaultRenderer();
+
+        NumberFormat percentFormatter = NumberFormat.getPercentInstance(Locale.FRENCH);
+        percentFormatter.setMinimumFractionDigits(2);
+        percentFormatter.setMaximumFractionDigits(2);
+
+        dataset.add(getString(R.string.add_data_water), BodyData.getLastWaterMassInPercentage());
+        SimpleSeriesRenderer waterMassRenderer = new SimpleSeriesRenderer();
+        waterMassRenderer.setColor(COLOR_BLUE);
+        waterMassRenderer.setChartValuesFormat(percentFormatter);
+        renderer.addSeriesRenderer(waterMassRenderer);
+
+        dataset.add(getString(R.string.add_data_bones), BodyData.getLastBoneMassInPercentage());
+        SimpleSeriesRenderer bonesRenderer = new SimpleSeriesRenderer();
+        bonesRenderer.setColor(COLOR_GREEN);
+        bonesRenderer.setChartValuesFormat(percentFormatter);
+        renderer.addSeriesRenderer(bonesRenderer);
+
+        dataset.add(getString(R.string.add_data_fat_mass), BodyData.getLastBodyFatInPercentage());
+        SimpleSeriesRenderer fatMassRenderer = new SimpleSeriesRenderer();
+        fatMassRenderer.setColor(COLOR_ORANGE);
+        fatMassRenderer.setChartValuesFormat(percentFormatter);
+        renderer.addSeriesRenderer(fatMassRenderer);
+
+        dataset.add(getString(R.string.add_data_muscular_mass), BodyData.getLastMuscularMassInPercentage());
+        SimpleSeriesRenderer muscleMassRenderer = new SimpleSeriesRenderer();
+        muscleMassRenderer.setColor(COLOR_MAGENTA);
+        muscleMassRenderer.setChartValuesFormat(percentFormatter);
+        renderer.addSeriesRenderer(muscleMassRenderer);
+
+        renderer.setShowLegend(true);
+        renderer.setZoomEnabled(false);
+        renderer.setDisplayValues(true);
+        renderer.setLegendTextSize(30);
+        renderer.setShowLabels(false);
+        renderer.setLabelsTextSize(35);
+        renderer.setLabelsColor(COLOR_WHITE);
+
+        GraphicalView chartView = ChartFactory.getPieChartView(getActivity(), dataset, renderer);
+        mRateChartLinearLayout.removeAllViews();
+
+        TextView ratesLabelTextView = new TextView(getActivity());
+        ratesLabelTextView.setText(R.string.pie_chart_rate_label);
+        ratesLabelTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+        mRateChartLinearLayout.addView(ratesLabelTextView);
+        mRateChartLinearLayout.addView(chartView);
+        ((LinearLayout.LayoutParams)mRateChartLinearLayout.getLayoutParams()).weight = 6;
+    }
+
+    /**
+     * Display the actual weight value.
+     */
+    private void displayWeightActualValue() {
+        TextView weightLabelTextView = new TextView(getActivity());
+        weightLabelTextView.setText(R.string.weight_label);
+        weightLabelTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+        TextView weightValueTextView = new TextView(getActivity());
+        DatedValue lastWeight = BodyData.getLastWeight();
+        weightValueTextView.setText(getString(lastWeight.getUnit(), lastWeight.getValue()));
+        weightValueTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        weightValueTextView.setTextColor(COLOR_BLUE);
+        weightValueTextView.setTextSize(40);
+
+        mWeightChartLinearLayout.removeAllViews();
+        mWeightChartLinearLayout.addView(weightLabelTextView);
+        mWeightChartLinearLayout.addView(weightValueTextView);
+        ((LinearLayout.LayoutParams)mWeightChartLinearLayout.getLayoutParams()).weight = 2;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_ADD_DATA && resultCode == Activity.RESULT_OK) {
             // Refresh the charts
-            refreshRatesChart();
-            refreshWeightChart();
+            refreshCharts(mChartToDisplay);
         }
 
         super.onActivityResult(requestCode, resultCode, data);

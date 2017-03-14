@@ -14,7 +14,7 @@ public class FatHistoryFragment extends HistoryFragment {
 
     @Override
     protected List<DatedValue> getData() {
-        return BodyData.getAllFatMass();
+        return BodyData.getAllBodyFat();
     }
 
     @Override

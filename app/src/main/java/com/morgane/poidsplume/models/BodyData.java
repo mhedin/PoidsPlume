@@ -135,19 +135,17 @@ public class BodyData extends SugarRecord {
      * @return The list of all bone mass values associated with the date of measure and unit.
      */
     public static List<DatedValue> getAllBoneMass() {
-        return BodyData.listAll(BodyData.class).stream()
-                .sorted((data1, data2) -> Long.compare(data2.getMeasureDate(), data1.getMeasureDate()))
+        return BodyData.listAll(BodyData.class, "measure_date DESC").stream()
                 .map(data -> new DatedValue(data.getMeasureDate(), data.getBones(), R.string.history_value_unit_percentage))
                 .collect(Collectors.toList());
     }
 
     /**
-     * Get all the fat mass values associated with the date of measure and unit.
-     * @return The list of all fat mass values associated with the date of measure and unit.
+     * Get all the body fat values associated with the date of measure and unit.
+     * @return The list of all body fat values associated with the date of measure and unit.
      */
-    public static List<DatedValue> getAllFatMass() {
-        return BodyData.listAll(BodyData.class).stream()
-                .sorted((data1, data2) -> Long.compare(data2.getMeasureDate(), data1.getMeasureDate()))
+    public static List<DatedValue> getAllBodyFat() {
+        return BodyData.listAll(BodyData.class, "measure_date DESC").stream()
                 .map(data -> new DatedValue(data.getMeasureDate(), data.getFat(), R.string.history_value_unit_percentage))
                 .collect(Collectors.toList());
     }
@@ -157,8 +155,7 @@ public class BodyData extends SugarRecord {
      * @return The list of all muscular mass values associated with the date of measure and unit.
      */
     public static List<DatedValue> getAllMuscularMass() {
-        return BodyData.listAll(BodyData.class).stream()
-                .sorted((data1, data2) -> Long.compare(data2.getMeasureDate(), data1.getMeasureDate()))
+        return BodyData.listAll(BodyData.class, "measure_date DESC").stream()
                 .map(data -> new DatedValue(data.getMeasureDate(), data.getMuscle(), R.string.history_value_unit_percentage))
                 .collect(Collectors.toList());
     }
@@ -168,8 +165,7 @@ public class BodyData extends SugarRecord {
      * @return The list of all water mass values associated with the date of measure and unit.
      */
     public static List<DatedValue> getAllWaterMass() {
-        return BodyData.listAll(BodyData.class).stream()
-                .sorted((data1, data2) -> Long.compare(data2.getMeasureDate(), data1.getMeasureDate()))
+        return BodyData.listAll(BodyData.class, "measure_date DESC").stream()
                 .map(data -> new DatedValue(data.getMeasureDate(), data.getWater(), R.string.history_value_unit_percentage))
                 .collect(Collectors.toList());
     }
@@ -179,9 +175,49 @@ public class BodyData extends SugarRecord {
      * @return The list of all weights values associated with the date of measure and unit.
      */
     public static List<DatedValue> getAllWeights() {
-        return BodyData.listAll(BodyData.class).stream()
-                .sorted((data1, data2) -> Long.compare(data2.getMeasureDate(), data1.getMeasureDate()))
+        return BodyData.listAll(BodyData.class, "measure_date DESC").stream()
                 .map(data -> new DatedValue(data.getMeasureDate(), data.getWeight(), R.string.history_value_unit_kg))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Get the last weight value.
+     * @return The last weight value.
+     */
+    public static DatedValue getLastWeight() {
+        BodyData weightData = BodyData.listAll(BodyData.class, "measure_date DESC").get(0);
+        return new DatedValue(weightData.getMeasureDate(), weightData.getWeight(), R.string.history_value_unit_kg);
+    }
+
+    /**
+     * Get the last body fat value, in percentage.
+     * @return The last body fat value.
+     */
+    public static double getLastBodyFatInPercentage() {
+        return BodyData.listAll(BodyData.class, "measure_date DESC").get(0).getFat()  / 100;
+    }
+
+    /**
+     * Get the last muscular mass value, in percentage.
+     * @return The last muscular mass value.
+     */
+    public static double getLastMuscularMassInPercentage() {
+        return BodyData.listAll(BodyData.class, "measure_date DESC").get(0).getMuscle()  / 100;
+    }
+
+    /**
+     * Get the last water mass value, in percentage.
+     * @return The last water mass value.
+     */
+    public static double getLastWaterMassInPercentage() {
+        return BodyData.listAll(BodyData.class, "measure_date DESC").get(0).getWater()  / 100;
+    }
+
+    /**
+     * Get the last bone mass value, in percentage.
+     * @return The last bone mass value.
+     */
+    public static double getLastBoneMassInPercentage() {
+        return BodyData.listAll(BodyData.class, "measure_date DESC").get(0).getBones() / 100;
     }
 }

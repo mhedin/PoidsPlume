@@ -1,6 +1,8 @@
 package com.morgane.poidsplume.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,6 +12,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.morgane.poidsplume.R;
 import com.morgane.poidsplume.fragments.BonesHistoryFragment;
@@ -24,7 +28,27 @@ import com.morgane.poidsplume.models.ResultsRange;
  * Main Activity.
  */
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
+    /**
+     * Used to store in the preferences the chart to display, currently and at the next launch.
+     */
+    public static final String PREFERENCE_CHART_DISPLAYED = "preferenceChartDisplayed";
+
+    /**
+     * Used to identify the history charts in the preferences.
+     */
+    public static final int CHART_HISTORY = 2;
+
+    /**
+     * Used to identify the actual chart in the preferences.
+     */
+    public static final int CHART_ACTUAL = -2;
+
+    /**
+     * Button in the toolbar allowing to switch from one chart to another.
+     */
+    private ImageButton mSwitchChartsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +69,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        mSwitchChartsButton = (ImageButton) findViewById(R.id.toolbar_switch_charts);
+        mSwitchChartsButton.setOnClickListener(this);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPreferences.getInt(PREFERENCE_CHART_DISPLAYED, CHART_HISTORY) == CHART_HISTORY) {
+            mSwitchChartsButton.setImageResource(R.drawable.ic_toolbar_chart_actual);
+        } else {
+            mSwitchChartsButton.setImageResource(R.drawable.ic_toolbar_chart_history);
+        }
 
         //TODO: Remove this code later
         if (ResultsRange.getFatResultsRange() == null) {
@@ -78,6 +112,9 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.nav_home:
                 getSupportFragmentManager().popBackStack();
+
+                // Show the button to change the chart displayed
+                mSwitchChartsButton.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.nav_history_weight:
@@ -108,10 +145,32 @@ public class MainActivity extends AppCompatActivity
             ft.replace(R.id.fragment, fragment);
             ft.addToBackStack(null);
             ft.commit();
+
+            // Hide the button to change the chart displayed
+            mSwitchChartsButton.setVisibility(View.GONE);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.toolbar_switch_charts:
+                // When the user changes the current chart, register it as its new preference, then switch the view
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+                int currentChart = sharedPreferences.getInt(PREFERENCE_CHART_DISPLAYED, CHART_HISTORY);
+
+                sharedPreferences.edit().putInt(PREFERENCE_CHART_DISPLAYED, -currentChart).apply();
+
+                mSwitchChartsButton.setImageResource(currentChart == CHART_ACTUAL ? R.drawable.ic_toolbar_chart_actual : R.drawable.ic_toolbar_chart_history);
+
+                // Refresh the chart and update the chart to display value
+                ((ChartsFragment)getSupportFragmentManager().findFragmentById(R.id.fragment)).refreshCharts(-currentChart);
+
+                break;
+        }
     }
 }

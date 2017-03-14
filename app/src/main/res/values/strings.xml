@@ -4,8 +4,10 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="chart_rate_label">Taux (en %)</string>
-    <string name="chart_weight_label">Poids (en kg)</string>
+    <string name="line_chart_rate_label">Taux (en %)</string>
+    <string name="line_chart_weight_label">Poids (en kg)</string>
+    <string name="pie_chart_rate_label">Taux</string>
+    <string name="weight_label">Poids</string>
 
     <string name="nav_title_home">Accueil</string>
     <string name="nav_title_history">Historique</string>
