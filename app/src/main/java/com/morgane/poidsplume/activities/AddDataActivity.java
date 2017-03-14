@@ -164,26 +164,41 @@ public class AddDataActivity extends AppCompatActivity implements View.OnClickLi
 
             case R.id.button_add_validate:
                 // The user wants to register the new data
-                // Check all the fields are filled
+                // Check all the fields are filled and are valid
                 boolean hasError = false;
+
                 if (mWeightEditText.getText().toString().isEmpty()) {
+                    mWeightTextInputLayout.setErrorEnabled(true);
                     mWeightTextInputLayout.setError(getString(R.string.add_data_error_empty_field));
                     hasError = true;
+
+                } else {
+                    // Check if the value is valid
+                    Double doubleValue = Double.valueOf(mWeightEditText.getText().toString());
+                    if (doubleValue == null || doubleValue < 0 || doubleValue > 180) {
+                        mWeightTextInputLayout.setErrorEnabled(true);
+                        mWeightTextInputLayout.setError(getString(R.string.add_data_error_invalid_weight));
+                        hasError = true;
+
+                    } else {
+                        // Empty the possible previous error if now the field is valid
+                        mWeightTextInputLayout.setErrorEnabled(false);
+                    }
                 }
-                if (mFatEditText.getText().toString().isEmpty()) {
-                    mFatETextInputLayout.setError(getString(R.string.add_data_error_empty_field));
+
+                if (!isAValidPercentValue(mFatEditText, mFatETextInputLayout)) {
                     hasError = true;
                 }
-                if (mWaterEditText.getText().toString().isEmpty()) {
-                    mWaterTextInputLayout.setError(getString(R.string.add_data_error_empty_field));
+
+                if (!isAValidPercentValue(mWaterEditText, mWaterTextInputLayout)) {
                     hasError = true;
                 }
-                if (mBonesEditText.getText().toString().isEmpty()) {
-                    mBonesTextInputLayout.setError(getString(R.string.add_data_error_empty_field));
+
+                if (!isAValidPercentValue(mBonesEditText, mBonesTextInputLayout)) {
                     hasError = true;
                 }
-                if (mMuscleEditText.getText().toString().isEmpty()) {
-                    mMuscleTextInputLayout.setError(getString(R.string.add_data_error_empty_field));
+
+                if (!isAValidPercentValue(mMuscleEditText, mMuscleTextInputLayout)) {
                     hasError = true;
                 }
 
@@ -199,6 +214,34 @@ public class AddDataActivity extends AppCompatActivity implements View.OnClickLi
                     finish();
                 }
         }
+    }
+
+    /**
+     * Check if the value is a percentage, if not add an error to the TextInputLayout.
+     * @param editText The EditText containing the value to test.
+     * @param textInputLayout The TextInputLayout where displaying an error if necessary.
+     * @return True if the value is a valid percentage, false otherwise.
+     */
+    private boolean isAValidPercentValue(EditText editText, TextInputLayout textInputLayout) {
+        // Check if the EditText is empty
+        if (editText.getText().toString().isEmpty()) {
+            textInputLayout.setErrorEnabled(true);
+            textInputLayout.setError(getString(R.string.add_data_error_empty_field));
+            return false;
+
+        } else {
+            // Check if the value is a percentage
+            Double doubleValue = Double.valueOf(editText.getText().toString());
+            if (doubleValue == null || doubleValue < 0 || doubleValue > 100) {
+                textInputLayout.setErrorEnabled(true);
+                textInputLayout.setError(getString(R.string.add_data_error_percent_value));
+                return false;
+            }
+        }
+
+        // Empty the possible previous error if now the field is valid
+        textInputLayout.setErrorEnabled(false);
+        return true;
     }
 
     @Override
