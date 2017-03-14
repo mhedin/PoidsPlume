@@ -1,6 +1,6 @@
 package com.morgane.poidsplume.adapters;
 
-import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.morgane.poidsplume.R;
+import com.morgane.poidsplume.fragments.RemoveDataDialogFragment;
 import com.morgane.poidsplume.models.DatedValue;
 import com.morgane.poidsplume.models.ResultsRange;
 
@@ -27,7 +28,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     /**
      * The context of the application.
      */
-    private Context mContext;
+    private FragmentActivity mContext;
 
     /**
      * The list of items to display.
@@ -44,7 +45,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
      * @param datedValueList The items to display.
      * @param context The context of the application.
      */
-    public HistoryAdapter(List<DatedValue> datedValueList, Context context, ResultsRange resultsRange) {
+    public HistoryAdapter(List<DatedValue> datedValueList, FragmentActivity context, ResultsRange resultsRange) {
         mContext = context;
         mItems = datedValueList;
         mResultsRange = resultsRange;
@@ -63,7 +64,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        DatedValue datedValue = mItems.get(position);
+        final DatedValue datedValue = mItems.get(position);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy - HH:mm", Locale.getDefault());
         String formattedDate = simpleDateFormat.format(new Date(datedValue.getDate()));
@@ -102,11 +103,30 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         } else {
             holder.mLayout.setBackgroundColor(ContextCompat.getColor(mContext, android.R.color.white));
         }
+
+        holder.mLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // Display a dialog to confirm the removal
+                RemoveDataDialogFragment removeDataDialogFragment = RemoveDataDialogFragment.newInstance(datedValue.getId(), HistoryAdapter.this, position);
+                removeDataDialogFragment.show(mContext.getSupportFragmentManager(), RemoveDataDialogFragment.class.toString());
+                return true;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return mItems.size();
+    }
+
+    /**
+     * Delete an item and refresh the view.
+     * @param position The position of the item to remove.
+     */
+    public void remove(int position) {
+        mItems.remove(position);
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

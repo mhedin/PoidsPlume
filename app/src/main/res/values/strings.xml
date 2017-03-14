@@ -26,6 +26,8 @@
     <string name="add_data_ok">OK</string>
     <string name="add_data_cancel">Annuler</string>
     <string name="add_data_error_empty_field">Veuillez entrer une valeur</string>
+    <string name="add_data_error_invalid_weight">Veuillez entrer une valeur comprise entre 0 et 180</string>
+    <string name="add_data_error_percent_value">Veuillez entrer un pourcentage</string>
 
     <string name="history_title_bones">Historique de masse osseuse</string>
     <string name="history_title_fat">Historique de graisse corporelle</string>
@@ -39,5 +41,17 @@
     <string name="history_result">Résultat</string>
     <string name="history_value_unit_kg">%s kg</string>
     <string name="history_value_unit_percentage">%s %%</string>
+
+    <string name="history_remove_data_title">Supprimer une donnée</string>
+    <string name="history_remove_data_information">Etes-vous sûr de vouloir supprimer les données suivantes ?\n\n%s</string>
+    <string name="history_remove_data_cancel">Annuler</string>
+    <string name="history_remove_data_validate">Supprimer</string>
+
+    <string name="data_date">"Date : "</string>
+    <string name="data_weight">"Poids : "</string>
+    <string name="data_body_fat">"Graisse corporelle : "</string>
+    <string name="data_muscular_mass">"Masse musculaire : "</string>
+    <string name="data_water_mass">"Masse hydrique : "</string>
+    <string name="data_bone_mass">"Masse osseuse : "</string>
 
 </resources>

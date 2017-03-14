@@ -136,7 +136,7 @@ public class BodyData extends SugarRecord {
      */
     public static List<DatedValue> getAllBoneMass() {
         return BodyData.listAll(BodyData.class, "measure_date DESC").stream()
-                .map(data -> new DatedValue(data.getMeasureDate(), data.getBones(), R.string.history_value_unit_percentage))
+                .map(data -> new DatedValue(data.getId(), data.getMeasureDate(), data.getBones(), R.string.history_value_unit_percentage))
                 .collect(Collectors.toList());
     }
 
@@ -146,7 +146,7 @@ public class BodyData extends SugarRecord {
      */
     public static List<DatedValue> getAllBodyFat() {
         return BodyData.listAll(BodyData.class, "measure_date DESC").stream()
-                .map(data -> new DatedValue(data.getMeasureDate(), data.getFat(), R.string.history_value_unit_percentage))
+                .map(data -> new DatedValue(data.getId(), data.getMeasureDate(), data.getFat(), R.string.history_value_unit_percentage))
                 .collect(Collectors.toList());
     }
 
@@ -156,7 +156,7 @@ public class BodyData extends SugarRecord {
      */
     public static List<DatedValue> getAllMuscularMass() {
         return BodyData.listAll(BodyData.class, "measure_date DESC").stream()
-                .map(data -> new DatedValue(data.getMeasureDate(), data.getMuscle(), R.string.history_value_unit_percentage))
+                .map(data -> new DatedValue(data.getId(), data.getMeasureDate(), data.getMuscle(), R.string.history_value_unit_percentage))
                 .collect(Collectors.toList());
     }
 
@@ -166,7 +166,7 @@ public class BodyData extends SugarRecord {
      */
     public static List<DatedValue> getAllWaterMass() {
         return BodyData.listAll(BodyData.class, "measure_date DESC").stream()
-                .map(data -> new DatedValue(data.getMeasureDate(), data.getWater(), R.string.history_value_unit_percentage))
+                .map(data -> new DatedValue(data.getId(), data.getMeasureDate(), data.getWater(), R.string.history_value_unit_percentage))
                 .collect(Collectors.toList());
     }
 
@@ -176,7 +176,7 @@ public class BodyData extends SugarRecord {
      */
     public static List<DatedValue> getAllWeights() {
         return BodyData.listAll(BodyData.class, "measure_date DESC").stream()
-                .map(data -> new DatedValue(data.getMeasureDate(), data.getWeight(), R.string.history_value_unit_kg))
+                .map(data -> new DatedValue(data.getId(), data.getMeasureDate(), data.getWeight(), R.string.history_value_unit_kg))
                 .collect(Collectors.toList());
     }
 
@@ -186,7 +186,7 @@ public class BodyData extends SugarRecord {
      */
     public static DatedValue getLastWeight() {
         BodyData weightData = BodyData.listAll(BodyData.class, "measure_date DESC").get(0);
-        return new DatedValue(weightData.getMeasureDate(), weightData.getWeight(), R.string.history_value_unit_kg);
+        return new DatedValue(weightData.getId(), weightData.getMeasureDate(), weightData.getWeight(), R.string.history_value_unit_kg);
     }
 
     /**

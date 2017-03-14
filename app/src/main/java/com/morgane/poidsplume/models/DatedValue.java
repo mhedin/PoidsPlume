@@ -6,6 +6,11 @@ package com.morgane.poidsplume.models;
 public class DatedValue {
 
     /**
+     * The id of the element in the database.
+     */
+    private long id;
+
+    /**
      * The date and time.
      */
     private long date;
@@ -22,13 +27,24 @@ public class DatedValue {
 
     /**
      * Constructor.
+     * @param id The id.
      * @param date The date and time.
      * @param value The value.
+     * @param unit The unit.
      */
-    public DatedValue(long date, double value, int unit) {
+    public DatedValue(long id, long date, double value, int unit) {
+        this.id = id;
         this.date = date;
         this.value = value;
         this.unit = unit;
+    }
+
+    /**
+     * Accessor for the id.
+     * @return The id.
+     */
+    public long getId() {
+        return id;
     }
 
     /**
