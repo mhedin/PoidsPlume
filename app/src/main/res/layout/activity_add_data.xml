@@ -42,9 +42,23 @@
                 android:id="@+id/edit_text_add_weight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal"
+                android:textSize="@dimen/default_text_size"/>
 
         </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/text_view_add_weight_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignBottom="@id/text_input_layout_add_weight"
+            android:text="@string/add_data_unit_weight"
+            android:gravity="bottom"
+            android:textSize="@dimen/default_text_size"
+            android:textColor="@color/black"
+            android:visibility="invisible"
+            android:paddingLeft="@dimen/unit_and_value_padding"/>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/text_input_layout_add_fat"
@@ -57,9 +71,23 @@
             android:id="@+id/edit_text_add_fat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"/>
+            android:inputType="numberDecimal"
+            android:textSize="@dimen/default_text_size"/>
 
         </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/text_view_add_fat_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_input_layout_add_weight"
+            android:layout_alignBottom="@id/text_input_layout_add_fat"
+            android:text="@string/add_data_unit_percentage"
+            android:gravity="bottom"
+            android:textSize="@dimen/default_text_size"
+            android:textColor="@color/black"
+            android:visibility="invisible"
+            android:padding="@dimen/unit_and_value_padding"/>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/text_input_layout_add_water"
@@ -72,9 +100,23 @@
             android:id="@+id/edit_text_add_water"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"/>
+            android:inputType="numberDecimal"
+            android:textSize="@dimen/default_text_size"/>
 
         </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/text_view_add_water_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_input_layout_add_fat"
+            android:layout_alignBottom="@id/text_input_layout_add_water"
+            android:text="@string/add_data_unit_percentage"
+            android:gravity="bottom"
+            android:textSize="@dimen/default_text_size"
+            android:textColor="@color/black"
+            android:visibility="invisible"
+            android:padding="@dimen/unit_and_value_padding"/>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/text_input_layout_add_bones"
@@ -87,9 +129,23 @@
             android:id="@+id/edit_text_add_bones"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"/>
+            android:inputType="numberDecimal"
+            android:textSize="@dimen/default_text_size"/>
 
         </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/text_view_add_bones_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_input_layout_add_water"
+            android:layout_alignBottom="@id/text_input_layout_add_bones"
+            android:text="@string/add_data_unit_percentage"
+            android:gravity="bottom"
+            android:textSize="@dimen/default_text_size"
+            android:textColor="@color/black"
+            android:visibility="invisible"
+            android:padding="@dimen/unit_and_value_padding"/>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/text_input_layout_add_muscle"
@@ -102,9 +158,23 @@
                 android:id="@+id/edit_text_add_muscle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal"
+                android:textSize="@dimen/default_text_size"/>
 
         </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/text_view_add_muscle_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_input_layout_add_bones"
+            android:layout_alignBottom="@id/text_input_layout_add_muscle"
+            android:text="@string/add_data_unit_percentage"
+            android:gravity="bottom"
+            android:textSize="@dimen/default_text_size"
+            android:textColor="@color/black"
+            android:visibility="invisible"
+            android:padding="@dimen/unit_and_value_padding"/>
 
         <LinearLayout
             android:layout_below="@id/text_input_layout_add_muscle"

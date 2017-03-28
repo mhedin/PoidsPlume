@@ -28,6 +28,8 @@
     <string name="add_data_error_empty_field">Veuillez entrer une valeur</string>
     <string name="add_data_error_invalid_weight">Veuillez entrer une valeur comprise entre 0 et 180</string>
     <string name="add_data_error_percent_value">Veuillez entrer un pourcentage</string>
+    <string name="add_data_unit_weight">kg</string>
+    <string name="add_data_unit_percentage">%</string>
 
     <string name="history_title_bones">Historique de masse osseuse</string>
     <string name="history_title_fat">Historique de graisse corporelle</string>

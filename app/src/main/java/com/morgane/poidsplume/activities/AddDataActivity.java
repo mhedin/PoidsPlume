@@ -2,18 +2,21 @@ package com.morgane.poidsplume.activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.morgane.poidsplume.models.BodyData;
 import com.morgane.poidsplume.R;
+import com.morgane.poidsplume.models.BodyData;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,7 +25,8 @@ import java.util.Locale;
 /**
  * Class used to add data in the history.
  */
-public class AddDataActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class AddDataActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,
+        View.OnKeyListener, View.OnFocusChangeListener {
 
     /**
      * The editable field to enter weight.
@@ -75,6 +79,31 @@ public class AddDataActivity extends AppCompatActivity implements View.OnClickLi
     private TextInputLayout mMuscleTextInputLayout;
 
     /**
+     * The unit of weight field.
+     */
+    private TextView mWeightUnitTextView;
+
+    /**
+     * The unit of body fat field.
+     */
+    private TextView mFatUnitTextView;
+
+    /**
+     * The unit of water mass field.
+     */
+    private TextView mWaterUnitTextView;
+
+    /**
+     * The unit of bone mass field.
+     */
+    private TextView mBonesUnitTextView;
+
+    /**
+     * The unit of muscular mass field.
+     */
+    private TextView mMuscleUnitTextView;
+
+    /**
      * The button used to set the date of the measure.
      */
     private Button mDateButton;
@@ -117,6 +146,11 @@ public class AddDataActivity extends AppCompatActivity implements View.OnClickLi
         mWaterTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_add_water);
         mBonesTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_add_bones);
         mMuscleTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_add_muscle);
+        mWeightUnitTextView = (TextView) findViewById(R.id.text_view_add_weight_unit);
+        mFatUnitTextView = (TextView) findViewById(R.id.text_view_add_fat_unit);
+        mWaterUnitTextView = (TextView) findViewById(R.id.text_view_add_water_unit);
+        mBonesUnitTextView = (TextView) findViewById(R.id.text_view_add_bones_unit);
+        mMuscleUnitTextView = (TextView) findViewById(R.id.text_view_add_muscle_unit);
 
         mDateButton = (Button) findViewById(R.id.button_add_date);
         mTimeButton = (Button) findViewById(R.id.button_add_time);
@@ -135,6 +169,25 @@ public class AddDataActivity extends AppCompatActivity implements View.OnClickLi
 
         mDateButton.setOnClickListener(this);
         mTimeButton.setOnClickListener(this);
+
+        mWeightEditText.setOnKeyListener(this);
+        mFatEditText.setOnKeyListener(this);
+        mBonesEditText.setOnKeyListener(this);
+        mWaterEditText.setOnKeyListener(this);
+        mMuscleEditText.setOnKeyListener(this);
+
+        mWeightEditText.setOnFocusChangeListener(this);
+        mFatEditText.setOnFocusChangeListener(this);
+        mBonesEditText.setOnFocusChangeListener(this);
+        mWaterEditText.setOnFocusChangeListener(this);
+        mMuscleEditText.setOnFocusChangeListener(this);
+
+        // Give the same padding to the value and its unit
+        mWeightUnitTextView.setPadding(mWeightUnitTextView.getPaddingLeft(), mWeightUnitTextView.getPaddingTop(), mWeightUnitTextView.getPaddingRight(), mWeightEditText.getPaddingBottom());
+        mFatUnitTextView.setPadding(mFatUnitTextView.getPaddingLeft(), mFatUnitTextView.getPaddingTop(), mFatUnitTextView.getPaddingRight(), mFatEditText.getPaddingBottom());
+        mWaterUnitTextView.setPadding(mWaterUnitTextView.getPaddingLeft(), mWaterUnitTextView.getPaddingTop(), mWaterUnitTextView.getPaddingRight(), mWaterEditText.getPaddingBottom());
+        mBonesUnitTextView.setPadding(mBonesUnitTextView.getPaddingLeft(), mBonesUnitTextView.getPaddingTop(), mBonesUnitTextView.getPaddingRight(), mBonesEditText.getPaddingBottom());
+        mMuscleUnitTextView.setPadding(mMuscleUnitTextView.getPaddingLeft(), mMuscleUnitTextView.getPaddingTop(), mMuscleUnitTextView.getPaddingRight(), mBonesEditText.getPaddingBottom());
     }
 
     @Override
@@ -257,5 +310,78 @@ public class AddDataActivity extends AppCompatActivity implements View.OnClickLi
         mDataCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         mDataCalendar.set(Calendar.MINUTE, minute);
         mTimeButton.setText(mFormatTime.format(mDataCalendar.getTime()));
+    }
+
+    @Override
+    public boolean onKey(View view, int keyCode, KeyEvent event) {
+        if (event != null) {
+            TextView unitTextView = null;
+            switch (view.getId()) {
+                case R.id.edit_text_add_weight:
+                    unitTextView = (TextView) findViewById(R.id.text_view_add_weight_unit);
+                    break;
+
+                case R.id.edit_text_add_fat:
+                    unitTextView = (TextView) findViewById(R.id.text_view_add_fat_unit);
+                    break;
+
+                case R.id.edit_text_add_water:
+                    unitTextView = (TextView) findViewById(R.id.text_view_add_water_unit);
+                    break;
+
+                case R.id.edit_text_add_bones:
+                    unitTextView = (TextView) findViewById(R.id.text_view_add_bones_unit);
+                    break;
+
+                case R.id.edit_text_add_muscle:
+                    unitTextView = (TextView) findViewById(R.id.text_view_add_muscle_unit);
+                    break;
+            }
+
+            if (unitTextView != null) {
+                // Make the unit follow the content of the field
+                Paint textPaint = mWeightEditText.getPaint();
+                float valueWidth = textPaint.measureText(((EditText)view).getText().toString());
+                unitTextView.setPadding((int) (valueWidth + getResources().getDimension(R.dimen.unit_and_value_padding)),
+                        unitTextView.getPaddingTop(), unitTextView.getPaddingRight(), view.getPaddingBottom());
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onFocusChange(View view, boolean hasFocus) {
+        TextView unitTextView = null;
+        switch (view.getId()) {
+            case R.id.edit_text_add_weight:
+                unitTextView = (TextView) findViewById(R.id.text_view_add_weight_unit);
+                break;
+
+            case R.id.edit_text_add_fat:
+                unitTextView = (TextView) findViewById(R.id.text_view_add_fat_unit);
+                break;
+
+            case R.id.edit_text_add_water:
+                unitTextView = (TextView) findViewById(R.id.text_view_add_water_unit);
+                break;
+
+            case R.id.edit_text_add_bones:
+                unitTextView = (TextView) findViewById(R.id.text_view_add_bones_unit);
+                break;
+
+            case R.id.edit_text_add_muscle:
+                unitTextView = (TextView) findViewById(R.id.text_view_add_muscle_unit);
+                break;
+        }
+
+        if (unitTextView != null) {
+            // If the field has not the focus and is empty, don't show the unit, else show it
+            if (!hasFocus && ((EditText) view).getText().toString().isEmpty()) {
+                unitTextView.setVisibility(View.INVISIBLE);
+            } else {
+                unitTextView.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }

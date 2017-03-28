@@ -21,7 +21,7 @@
             android:layout_gravity="center"
             android:text="@string/history_date"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/table_text_size"/>
+            android:textSize="@dimen/default_text_size"/>
 
         <TextView
             android:id="@+id/text_view_history_title_value"
@@ -31,7 +31,7 @@
             android:textAlignment="center"
             android:layout_gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/table_text_size"/>
+            android:textSize="@dimen/default_text_size"/>
 
         <TextView
             android:id="@+id/text_view_history_title_result"
@@ -42,7 +42,7 @@
             android:layout_gravity="center"
             android:text="@string/history_result"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/table_text_size"/>
+            android:textSize="@dimen/default_text_size"/>
 
     </LinearLayout>
 
