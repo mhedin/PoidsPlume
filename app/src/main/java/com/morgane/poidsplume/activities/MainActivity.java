@@ -51,10 +51,16 @@ public class MainActivity extends AppCompatActivity
      */
     private ImageButton mSwitchChartsButton;
 
+    /**
+     * The navigation view.
+     */
+    private NavigationView mNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -68,8 +74,8 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
         mSwitchChartsButton = (ImageButton) findViewById(R.id.toolbar_switch_charts);
         mSwitchChartsButton.setOnClickListener(this);
@@ -100,6 +106,9 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            // The back pressed redirects everytime on the charts fragment, so show the button to change the chart displayed and select it in the navigation menu
+            mSwitchChartsButton.setVisibility(View.VISIBLE);
+            mNavigationView.getMenu().getItem(0).setChecked(true);
         }
     }
 
