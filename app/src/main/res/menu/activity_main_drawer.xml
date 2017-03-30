@@ -1,33 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/nav_home"
-        android:icon="@drawable/ic_menu_home"
-        android:title="@string/nav_title_home" />
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_home"
+            android:title="@string/nav_title_home"
+            android:checked="true"/>
+    </group>
 
     <item android:title="@string/nav_title_history">
         <menu>
-            <item
-                android:id="@+id/nav_history_weight"
-                android:icon="@drawable/ic_menu_weight"
-                android:title="@string/nav_history_weight" />
-            <item
-                android:id="@+id/nav_history_fat"
-                android:icon="@drawable/ic_menu_fat"
-                android:title="@string/nav_history_fat" />
-            <item
-                android:id="@+id/nav_history_muscle"
-                android:icon="@drawable/ic_menu_muscle"
-                android:title="@string/nav_history_muscle" />
-            <item
-                android:id="@+id/nav_history_bones"
-                android:icon="@drawable/ic_menu_bones"
-                android:title="@string/nav_history_bones" />
-            <item
-                android:id="@+id/nav_history_water"
-                android:icon="@drawable/ic_menu_water"
-                android:title="@string/nav_history_water" />
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_history_weight"
+                    android:icon="@drawable/ic_menu_weight"
+                    android:title="@string/nav_history_weight" />
+                <item
+                    android:id="@+id/nav_history_fat"
+                    android:icon="@drawable/ic_menu_fat"
+                    android:title="@string/nav_history_fat" />
+                <item
+                    android:id="@+id/nav_history_muscle"
+                    android:icon="@drawable/ic_menu_muscle"
+                    android:title="@string/nav_history_muscle" />
+                <item
+                    android:id="@+id/nav_history_bones"
+                    android:icon="@drawable/ic_menu_bones"
+                    android:title="@string/nav_history_bones" />
+                <item
+                    android:id="@+id/nav_history_water"
+                    android:icon="@drawable/ic_menu_water"
+                    android:title="@string/nav_history_water" />
+
+                <item
+                    android:id="@+id/nav_settings"
+                    android:icon="@drawable/ic_menu_settings"
+                    android:title="@string/nav_title_settings" />
+            </group>
         </menu>
     </item>
 

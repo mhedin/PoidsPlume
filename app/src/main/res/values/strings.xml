@@ -16,6 +16,7 @@
     <string name="nav_history_bones">Masse osseuse</string>
     <string name="nav_history_water">Masse hydrique</string>
     <string name="nav_history_fat">Graisse corporelle</string>
+    <string name="nav_title_settings">Paramètres</string>
 
     <string name="add_data_title">Nouvelle donnée</string>
     <string name="add_data_weight">Poids</string>
@@ -45,7 +46,7 @@
     <string name="history_value_unit_percentage">%s %%</string>
 
     <string name="history_remove_data_title">Supprimer une donnée</string>
-    <string name="history_remove_data_information">Etes-vous sûr de vouloir supprimer les données suivantes ?\n\n%s</string>
+    <string name="history_remove_data_information">Êtes-vous sûr de vouloir supprimer les données suivantes ?\n\n%s</string>
     <string name="history_remove_data_cancel">Annuler</string>
     <string name="history_remove_data_validate">Supprimer</string>
 
@@ -55,5 +56,13 @@
     <string name="data_muscular_mass">"Masse musculaire : "</string>
     <string name="data_water_mass">"Masse hydrique : "</string>
     <string name="data_bone_mass">"Masse osseuse : "</string>
+
+    <string name="settings_title">Paramètres</string>
+    <string name="settings_activation_label">Évaluation des taux</string>
+    <string name="settings_activation_warning">Les paramètres utilisés pour évaluer les taux que vous allez saisir sont spécifiques à certaines balances. Si ceux-ci ne semblent pas correspondre à votre balance ou que vous ne souhaitez pas avoir d\'évaluation de vos taux (symbolisés par des muscles de taille et couleurs différentes dans votre historique), vous pouvez désactiver cette fonctionnalité.</string>
+    <string name="settings_date_of_birth">Date de naissance</string>
+    <string name="settings_gender">Sexe</string>
+    <string name="settings_default_date_of_birth">--/--/----</string>
+    <string name="settings_warning_fill_all_parameters">Vous devez renseigner votre sexe et votre date de naissance pour que l\'évaluation de vos taux fonctionne.</string>
 
 </resources>

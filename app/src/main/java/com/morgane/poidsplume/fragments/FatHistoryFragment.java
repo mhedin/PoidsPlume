@@ -1,5 +1,7 @@
 package com.morgane.poidsplume.fragments;
 
+import android.preference.PreferenceManager;
+
 import com.morgane.poidsplume.R;
 import com.morgane.poidsplume.models.BodyData;
 import com.morgane.poidsplume.models.DatedValue;
@@ -29,6 +31,6 @@ public class FatHistoryFragment extends HistoryFragment {
 
     @Override
     protected ResultsRange getResultsRange() {
-        return ResultsRange.getFatResultsRange();
+        return ResultsRange.getFatResultsRange(PreferenceManager.getDefaultSharedPreferences(getActivity()));
     }
 }
