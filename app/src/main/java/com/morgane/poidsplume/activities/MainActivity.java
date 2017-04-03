@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity
                 mSwitchChartsButton.setImageResource(currentChart == CHART_ACTUAL ? R.drawable.ic_toolbar_chart_actual : R.drawable.ic_toolbar_chart_history);
 
                 // Refresh the chart and update the chart to display value
-                ((ChartsFragment)getSupportFragmentManager().findFragmentById(R.id.fragment)).refreshCharts(-currentChart);
+                ((ChartsFragment)getSupportFragmentManager().findFragmentById(R.id.fragment)).refreshCharts(-currentChart, false);
 
                 break;
         }
